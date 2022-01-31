@@ -1,12 +1,14 @@
-import ExchangeRate from "./ExchangeRate"
 import { useState } from "react"
 import axios from 'axios'
+import ExchangeRate from './ExchangeRate'
 
 const CurrencyConverter = () => {
   const currencies = ['BTC', 'ETH', 'USD', 'XRP', 'LTC', 'ADA']
-  const [chosenPrimaryCurrency, setChosenPrimaryCurrency] = useState(null)
-  const [chosenSecondaryCurrency, setChosenSecondaryCurrency] = useState(null)
+  const [chosenPrimaryCurrency, setChosenPrimaryCurrency] = useState('BTC')
+  const [chosenSecondaryCurrency, setChosenSecondaryCurrency] = useState('BTC')
   const [amount, setAmount] = useState(1)
+  const [rate, setRate] = useState(0)
+  const [results, setResults] = useState(0)
   
   const convert = () => {
     const options = {
@@ -15,21 +17,23 @@ const CurrencyConverter = () => {
       params: {to_currency: chosenPrimaryCurrency, function: 'CURRENCY_EXCHANGE_RATE', from_currency: chosenSecondaryCurrency},
       headers: {
         'x-rapidapi-host': 'alpha-vantage.p.rapidapi.com',
-        'x-rapidapi-key': '41cf5eedf6msh5583b3448e7ebf3p1f6b56jsn1207e41a3e3c'
+        'x-rapidapi-key': process.env.REACT_APP_RAPID_API_KEY
     }
   }
     
     axios.request(options).then((response) => {
-      console.log(response.data)
+      console.log(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+      setRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+      setResults(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'] * amount)
     }).catch((error) => {
       console.error(error)
     })
   }
   
   return (
-    <div className="input-box">
-      <div className="currency-converter">
-       <h2>CurrencyConverter</h2>
+    <div className="currency-converter">
+      <h2>CurrencyConverter</h2>
+      <div className="input-box">
 
         <table>
           <tbody>
@@ -62,7 +66,8 @@ const CurrencyConverter = () => {
                 <input 
                   type="number"
                   name="currency-amount-2"
-                  value={""}
+                  value={results}
+                  disable="true"
                 />
               </td>
               <td>
@@ -81,9 +86,16 @@ const CurrencyConverter = () => {
 
         <button id="convert-button" onClick={convert}>Convert</button>
 
-        <ExchangeRate />
+
       </div>
-      </div>
+  
+      <ExchangeRate
+        rate={rate}
+        chosenPrimaryCurrency={chosenPrimaryCurrency}
+        chosenSecondaryCurrency={chosenSecondaryCurrency}
+      />
+    
+    </div>
   )
 }
 

@@ -14,10 +14,18 @@ code {
 
 .news-feed {
   background-color: red;
+  padding: 10px;
+  margin: 5px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  max-width: 300px;
 }
 
 .currency-converter {
-  background-color: blue;
+  background-color: rgb(230, 223, 211);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
 }
 
 .app {
@@ -27,5 +35,29 @@ code {
 }
 
 .exchange-rate {
-  background-color: blueviolet;
+  background-color: rbg(221,230,221);
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow:0 3px 10px rgb(0 0 0 / 0.2); ;
+}
+
+button {
+  border: none;
+  float: right;
+  margin: 2px;
+}
+
+button:hover {
+  background-color: lightblue;
+}
+
+.input-box {
+  background-color:  tgb(218,227, 230);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);;
+}
+
+input, select {
+  border: none;
 }
